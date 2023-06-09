@@ -6,7 +6,10 @@ from pymongo.server_api import ServerApi
 from bson.json_util import dumps
 # importing matplotlib.pyplot
 import matplotlib.pyplot as plt
-#change
+import os
+
+mongo_pwd = os.environ['MONGO_PWD']
+mongo_user = os.environ['MONGO_USER']
 
 
 def read_saturn_file(file_name):
@@ -92,7 +95,7 @@ def main():
   # Convert data to a graph
   G = convert_to_graph(data)
 
-  uri = "mongodb+srv://testuser:@cluster0.bg2ernm.mongodb.net/crmdb?retryWrites=true&w=majority"
+  uri = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@cluster0.bg2ernm.mongodb.net/crmdb?retryWrites=true&w=majority"
   # Connect to MongoDB Atlas
   client = MongoClient(uri, server_api=ServerApi('1'))
   db = client['Cluster0']  # Use your database name
