@@ -92,7 +92,7 @@ def main():
   # Convert data to a graph
   G = convert_to_graph(data)
 
-  uri = "mongodb+srv://testuser:1ONsMdcicJBs2cXz@cluster0.bg2ernm.mongodb.net/crmdb?retryWrites=true&w=majority"
+  uri = "mongodb+srv://testuser:@cluster0.bg2ernm.mongodb.net/crmdb?retryWrites=true&w=majority"
   # Connect to MongoDB Atlas
   client = MongoClient(uri, server_api=ServerApi('1'))
   db = client['Cluster0']  # Use your database name
