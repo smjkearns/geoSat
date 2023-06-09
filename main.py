@@ -1,5 +1,6 @@
 import networkx as nx
 import json
+import logging
 import struct
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -13,12 +14,12 @@ mongo_pwd = os.environ['MONGO_PWD']
 mongo_user = os.environ['MONGO_USER']
 
 
-def convert_to_graph(data):
+def convert_to_graph(net, xy):
     try:
         G = nx.Graph()
-        for node in data.get('nodes', []):
+        for node in net.get('nodes', []):
             G.add_node(node['id'], num_links=node['num_links'], type=node['type'])
-        for link in data.get('links', []):
+        for link in net.get('links', []):
             G.add_edge(link['from'],
                     link['to'],
                     id=link['to'],
@@ -63,13 +64,13 @@ def write_to_file(json_file):
 
 def main():
   # Load your data here
-  data = saturn_reader.read_saturn_111('saturn.111')
-  data2 = saturn_reader.read_coordinate_file('saturn.555')
+  xy = saturn_reader.read_coordinate_file('saturn.555')
+  net = saturn_reader.read_saturn_111('saturn.111', xy)
   
-  write_to_file(data)
-  print(data2)
+  write_to_file(net)
+  #print(data2)
   # Convert data to a graph
-  G = convert_to_graph(data)
+  G = convert_to_graph(net, xy)
 
   uri = "mongodb+srv://" + mongo_user + ":" + mongo_pwd + "@cluster0.bg2ernm.mongodb.net/crmdb?retryWrites=true&w=majority"
   # Connect to MongoDB Atlas

@@ -2,7 +2,7 @@ import os
 import logging
 
 
-def read_saturn_111(file_name):
+def read_saturn_111(file_name, xy):
   data = {'nodes': [], 'links': []}
   if not os.path.exists(file_name):
     logging.error(f"File {file_name} not found.")
@@ -16,7 +16,8 @@ def read_saturn_111(file_name):
             node = {
               'id': id,
               'num_links': int(line[6:10]),
-              'type': int(line[11:15])
+              'type': int(line[11:15]),
+              'coords': xy.get(id, (0, 0))  # Use the coordinates if available, otherwise (0, 0)
             }
             data['nodes'].append(node)
           else:  # This line represents a link
@@ -53,8 +54,8 @@ def read_coordinate_file(file_name):
     for line in file.readlines():
       if len(line) > 6 and line[0] != 'C':  # Skip blank lines
         try:
-          node_id = int(line[6:11])  # Assuming node ID is at this position
-          coords = (int(line[12:20]), int(line[21:29])
+          node_id = int(line[5:10])  # Assuming node ID is at this position
+          coords = (int(line[12:19]), int(line[19:28])
                     )  # Assuming coordinates are at these positions
           coordinates[node_id] = coords
         except ValueError as ve:
