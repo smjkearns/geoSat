@@ -64,8 +64,8 @@ def write_to_file(json_file):
 
 def main():
   # Load your data here
-  xy = saturn_reader.read_coordinate_file('saturn.555')
-  net = saturn_reader.read_saturn_111('saturn.111', xy)
+  xy = saturn_reader.read_coordinate_file('saturn2.555')
+  net = saturn_reader.read_saturn_111('saturn2.111', xy)
   
   write_to_file(net)
   #print(data2)
@@ -93,7 +93,7 @@ def main():
 
   nx.draw(G, with_labels=True)
   plt.savefig("filename.png")
-
+  print('Done')
 
 if __name__ == '__main__':
   main()
